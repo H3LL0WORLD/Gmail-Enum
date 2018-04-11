@@ -165,10 +165,18 @@ func main() {
 		close(resultsChan)
 	}()
 
+	tested, found := 0, 0
 	for result := range resultsChan {
+		tested++
 		if result.Found {
+			found++
+			if out == os.Stdout {
+				// 'Flush' stdout
+				fmt.Printf("%100s\r", "")
+			}
 			fmt.Fprintln(out, result.Address)
 		}
-	}
 
+		fmt.Printf("[*] Tested: %d, Found: %d\r", tested, found)
+	}
 }
