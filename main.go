@@ -22,6 +22,7 @@ type Result struct {
 var (
 	inputFile  string
 	outputFile string
+	domain     string
 	stdin      bool
 	threads    int
 	client     *http.Client
@@ -31,7 +32,8 @@ var (
 func init() {
 	flag.StringVar(&inputFile, "i", "", "List of accounts to test")
 	flag.StringVar(&outputFile, "o", "", "Output file (default: Stdout)")
-	flag.BoolVar(&stdin, "stdin", false, "Grab accounts from stdin")
+	flag.StringVar(&domain, "d", "gmail.com", "Append domain to every address (empty to no append)")
+	flag.BoolVar(&stdin, "stdin", false, "Read accounts from stdin")
 	flag.IntVar(&threads, "t", 10, "Number of threads")
 	flag.Parse()
 
@@ -125,6 +127,11 @@ func main() {
 			for addr := range addrChan {
 				if addr == "" {
 					break
+				}
+
+				// Append domain to address
+				if domain != "" {
+					addr += "@" + domain
 				}
 
 				TestAddress(addr, resultsChan)

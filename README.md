@@ -10,12 +10,14 @@ $ go build
 
 $ ./Gmail_Enum
 Usage of ./Gmail_Enum:
+  -d string
+        Append domain to every address (empty to no append) (default "gmail.com")
   -i string
         List of accounts to test
   -o string
         Output file (default: Stdout)
   -stdin
-        Grab accounts from stdin
+        Read accounts from stdin
   -t int
         Number of threads (default 10)
 ```
