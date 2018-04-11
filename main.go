@@ -24,6 +24,7 @@ var (
 	outputFile string
 	domain     string
 	stdin      bool
+	validChars bool
 	threads    int
 	client     *http.Client
 	headers    map[string]string
@@ -34,6 +35,7 @@ func init() {
 	flag.StringVar(&outputFile, "o", "", "Output file (default: Stdout)")
 	flag.StringVar(&domain, "d", "gmail.com", "Append domain to every address (empty to no append)")
 	flag.BoolVar(&stdin, "stdin", false, "Read accounts from stdin")
+	flag.BoolVar(&validChars, "r", false, "Remove gmail address' invalid chars")
 	flag.IntVar(&threads, "t", 10, "Number of threads")
 	flag.Parse()
 
@@ -132,6 +134,10 @@ func main() {
 				// Append domain to address
 				if domain != "" {
 					addr += "@" + domain
+				}
+
+				if validChars {
+					addr = RemoveInvalidChars(addr)
 				}
 
 				TestAddress(addr, resultsChan)
