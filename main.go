@@ -104,12 +104,13 @@ func main() {
 		input = os.Stdin
 		inputFile = "stdin"
 	} else {
-		input, err := os.Open(inputFile)
+		f, err := os.Open(inputFile)
 		if err != nil {
 			fmt.Printf("[!] Error opening file '%s'\n", inputFile)
 			return
 		}
-		defer input.Close()
+		input = f
+		defer f.Close()
 	}
 
 	out, err := os.OpenFile(outputFile, os.O_APPEND|os.O_CREATE, os.ModeAppend)
