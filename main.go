@@ -113,7 +113,7 @@ func main() {
 		defer f.Close()
 	}
 
-	out, err := os.OpenFile(outputFile, os.O_APPEND|os.O_CREATE, os.ModeAppend)
+        out, err := os.OpenFile(outputFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		out = os.Stdout
 	}
